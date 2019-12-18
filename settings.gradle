@@ -1,0 +1,4 @@
+rootProject.name = 'object-java-serialization'
+
+include ':gradle-plugin'
+include ':kotlin-plugin'

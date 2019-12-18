@@ -1,0 +1,40 @@
+configurations {
+    embedded {
+        transitive = false
+    }
+    implementation.extendsFrom(embedded)
+}
+
+def embeddedProjects() {
+    return project.configurations.findByName('embedded')
+            .resolvedConfiguration
+            .resolvedArtifacts
+            .findAll { it.id.componentIdentifier instanceof ProjectComponentIdentifier }
+            .collect { project(it.id.componentIdentifier.projectPath) }
+}
+
+afterEvaluate {
+    dependencies {
+        embeddedProjects().collect { it.configurations.findByName("published") }
+                .forEach {
+                    it.dependencies.forEach {
+                        runtime "$it.group:$it.name:$it.version"
+                    }
+                }
+    }
+
+    jar {
+        from project.configurations.embedded.collect {
+            zipTree(it)
+        }
+    }
+
+    task sourcesJar(type: Jar) {
+        archiveClassifier = 'sources'
+        from embeddedProjects().collect { it.sourceSets.main.allSource }
+    }
+
+    artifacts {
+        archives sourcesJar
+    }
+}

@@ -1,0 +1,46 @@
+plugins {
+    id 'com.gradle.plugin-publish' version '0.10.1'
+}
+
+apply plugin: "java-gradle-plugin"
+apply plugin: "org.jetbrains.kotlin.jvm"
+apply plugin: "maven"
+apply from: '../gradle/utils/embedded.gradle'
+
+pluginBundle {
+    tags = ['kotlin', 'compiler-plugin', 'java', 'serialization']
+
+    plugins {
+        objectSerialization { }
+    }
+
+    mavenCoordinates {
+        groupId = project.getGroup()
+        artifactId = "object-java-serialization"
+        version = project.getVersion()
+    }
+}
+
+install {
+    repositories {
+        mavenInstaller {
+            pom.artifactId = 'object-java-serialization'
+        }
+    }
+}
+
+gradlePlugin {
+    plugins {
+        objectSerialization {
+            id = "me.shika.object-java-serialization"
+            implementationClass = "me.shika.ObjectSerializationPlugin"
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api"
+
+    embedded project(':kotlin-plugin')
+}
