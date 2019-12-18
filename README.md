@@ -13,8 +13,8 @@ The plugin adds `readResolve` method for every object which either:
 // build.gradle
 
 buildscript {
-    classpath 'me.shika:object-java-serialization:1.0.0'
+    classpath 'me.shika:kotlin-object-java-serialization:1.0.0'
 }
 
-apply plugin: 'me.shika.object-java-serialization'
+apply plugin: 'me.shika.kotlin-object-java-serialization'
 ```

@@ -8,15 +8,20 @@ apply plugin: "maven"
 apply from: '../gradle/utils/embedded.gradle'
 
 pluginBundle {
-    tags = ['kotlin', 'compiler-plugin', 'java', 'serialization']
+    website = 'https://github.com/ShikaSD/kotlin-object-serialization-fix'
+    vcsUrl = 'https://github.com/ShikaSD/kotlin-object-serialization-fix.git'
 
     plugins {
-        objectSerialization { }
+        objectSerialization {
+            displayName = "Java serialization fix for Kotlin object"
+            description = "Solves the problem of Kotlin object being having different instance after deserialization using built-in Java serialization."
+            tags = ['kotlin', 'compiler-plugin', 'java', 'serialization']
+        }
     }
 
     mavenCoordinates {
         groupId = project.getGroup()
-        artifactId = "object-java-serialization"
+        artifactId = "kotlin-object-java-serialization"
         version = project.getVersion()
     }
 }
@@ -24,7 +29,7 @@ pluginBundle {
 install {
     repositories {
         mavenInstaller {
-            pom.artifactId = 'object-java-serialization'
+            pom.artifactId = 'kotlin-object-java-serialization'
         }
     }
 }
@@ -32,7 +37,7 @@ install {
 gradlePlugin {
     plugins {
         objectSerialization {
-            id = "me.shika.object-java-serialization"
+            id = "me.shika.kotlin-object-java-serialization"
             implementationClass = "me.shika.ObjectSerializationPlugin"
         }
     }

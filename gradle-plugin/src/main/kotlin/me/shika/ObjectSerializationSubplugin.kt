@@ -32,7 +32,7 @@ class ObjectSerializationSubplugin: KotlinGradleSubplugin<AbstractCompile> {
     override fun getPluginArtifact(): SubpluginArtifact =
         SubpluginArtifact(
             groupId = "me.shika",
-            artifactId = "object-java-serialization",
+            artifactId = "kotlin-object-java-serialization",
             version = "1.0.0"
         )
 
