@@ -3,7 +3,9 @@
 Solves the problem of Kotlin object being having different instance after deserialization using built-in Java serialization.
 The issue is described quite well [here](https://blog.stylingandroid.com/kotlin-serializable-objects/).
 
-The plugin adds `readResolve` method for every object implementing `java.util.Serializable` extending a class implementing that interface.
+The plugin adds `readResolve` method for every object which either:
+ - implements `java.util.Serializable`;
+ - extends a class implementing `java.util.Serializable`.
 
 ## Getting it:
 
