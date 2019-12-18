@@ -5,7 +5,7 @@ The issue is described quite well [here](https://blog.stylingandroid.com/kotlin-
 
 The plugin adds `readResolve` method for every object implementing `java.util.Serializable` extending a class implementing that interface.
 
-Getting it
+## Getting it:
 
 ```groovy
 // build.gradle
