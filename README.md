@@ -25,7 +25,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "kotlin-object-java-serialization:1.0.0"
+    classpath "me.shika:kotlin-object-java-serialization:1.0.0"
   }
 }
 
