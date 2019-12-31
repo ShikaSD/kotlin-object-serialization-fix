@@ -33,7 +33,7 @@ class ObjectSerializationSubplugin: KotlinGradleSubplugin<AbstractCompile> {
         SubpluginArtifact(
             groupId = "me.shika",
             artifactId = "kotlin-object-java-serialization",
-            version = "1.0.0"
+            version = "1.0.1"
         )
 
     override fun isApplicable(project: Project, task: AbstractCompile): Boolean =

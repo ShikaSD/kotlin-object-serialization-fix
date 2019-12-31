@@ -2,7 +2,7 @@ configurations {
     embedded {
         transitive = false
     }
-    implementation.extendsFrom(embedded)
+    compileOnly.extendsFrom(embedded)
 }
 
 def embeddedProjects() {
@@ -16,11 +16,11 @@ def embeddedProjects() {
 afterEvaluate {
     dependencies {
         embeddedProjects().collect { it.configurations.findByName("published") }
-                .forEach {
-                    it.dependencies.forEach {
-                        runtime "$it.group:$it.name:$it.version"
-                    }
+            .forEach {
+                it.dependencies.forEach {
+                    runtime "$it.group:$it.name:$it.version"
                 }
+            }
     }
 
     jar {
