@@ -5,7 +5,7 @@ plugins {
 apply plugin: "java-gradle-plugin"
 apply plugin: "org.jetbrains.kotlin.jvm"
 apply plugin: "maven"
-apply from: '../gradle/utils/embedded.gradle'
+apply from: rootProject.file('gradle/utils/embedded.gradle')
 
 pluginBundle {
     website = 'https://github.com/ShikaSD/kotlin-object-serialization-fix'
