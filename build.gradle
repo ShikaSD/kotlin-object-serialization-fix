@@ -15,7 +15,3 @@ allprojects {
     group 'me.shika'
     version '1.0.1'
 }
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}

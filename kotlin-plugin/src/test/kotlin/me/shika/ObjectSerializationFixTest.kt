@@ -70,6 +70,7 @@ class ObjectSerializationFixTest(enableIr: Boolean) {
         name == "readResolve"
             && parameterCount == 0
             && returnType == Object::class.java
+            && isSynthetic
 }
 
 fun String.source() = SourceFile.kotlin("Source.kt", this, trimIndent = true)
