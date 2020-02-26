@@ -14,7 +14,7 @@ The plugin adds `readResolve` method for every object which either:
 
 // plugins dsl
 plugins {
-  id "me.shika.kotlin-object-java-serialization" version "1.0.1"
+  id "me.shika.kotlin-object-java-serialization" version "1.0.2"
 }
 
 // or else
@@ -25,7 +25,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "me.shika:kotlin-object-java-serialization:1.0.1"
+    classpath "me.shika:kotlin-object-java-serialization:1.0.2"
   }
 }
 

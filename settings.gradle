@@ -2,3 +2,4 @@ rootProject.name = 'kotlin-object-java-serialization'
 
 include ':gradle-plugin'
 include ':kotlin-plugin'
+include ':integration-test'
