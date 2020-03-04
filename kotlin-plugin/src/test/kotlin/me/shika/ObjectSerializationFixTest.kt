@@ -34,7 +34,7 @@ class ObjectSerializationFixTest(enableIr: Boolean) {
         val result = compiler.compile()
 
         val klass = result.classLoader.loadClass("Serial")
-        assertTrue(klass.methods.any { it.isReadResolve()})
+        assertTrue(klass.methods.any { it.addedReadResolve()})
     }
 
     private val NOT_SERIALIZABLE_OBJECT = """
@@ -47,7 +47,7 @@ class ObjectSerializationFixTest(enableIr: Boolean) {
         val result = compiler.compile()
 
         val klass = result.classLoader.loadClass("NotSerial")
-        assertTrue(klass.methods.none { it.isReadResolve() })
+        assertTrue(klass.methods.none { it.addedReadResolve() })
     }
 
     private val SERIALIZABLE_PARENT = """
@@ -63,10 +63,60 @@ class ObjectSerializationFixTest(enableIr: Boolean) {
         val result = compiler.compile()
 
         val klass = result.classLoader.loadClass("SerialChild")
-        assertTrue(klass.methods.any { it.isReadResolve() })
+        assertTrue(klass.methods.any { it.addedReadResolve() })
     }
 
-    private fun Method.isReadResolve() =
+    private val SERIALIZABLE_PARENT_INTERFACE = """
+        import java.io.Serializable
+        
+        interface SerialParent : Serializable
+        object SerialChild : SerialParent
+    """.source()
+
+    @Test
+    fun `adds readResolve to obj extending serializable interface`() {
+        compiler.sources = listOf(SERIALIZABLE_PARENT_INTERFACE)
+        val result = compiler.compile()
+
+        val klass = result.classLoader.loadClass("SerialChild")
+        assertTrue(klass.methods.any { it.addedReadResolve() })
+    }
+
+    private val SERIALIZABLE_READ_EXISTS = """
+        import java.io.Serializable
+        
+        object SerialChild : Serializable {
+            fun readResolve() = SerialChild
+        }
+    """.source()
+
+    @Test
+    fun `does not add readResolve to obj if read resolve already exits`() {
+        compiler.sources = listOf(SERIALIZABLE_READ_EXISTS)
+        val result = compiler.compile()
+
+        val klass = result.classLoader.loadClass("SerialChild")
+        assertTrue(klass.methods.none { it.addedReadResolve() })
+    }
+
+    private val SERIALIZABLE_READ_EXISTS_PARENT = """
+        import java.io.Serializable
+        
+        object SerialChild : Serializable {
+            fun readResolve() = SerialChild
+        }
+    """.source()
+
+    @Test
+    fun `does not add readResolve to obj if read resolve already exits in parent`() {
+        compiler.sources = listOf(SERIALIZABLE_READ_EXISTS_PARENT)
+        val result = compiler.compile()
+
+        val klass = result.classLoader.loadClass("SerialChild")
+        assertTrue(klass.methods.none { it.addedReadResolve() })
+    }
+
+    private fun Method.addedReadResolve() =
         name == "readResolve"
             && parameterCount == 0
             && returnType == Object::class.java

@@ -13,7 +13,7 @@ class ObjectSerializationComponentRegistrar @JvmOverloads constructor(
     private val enabled: Boolean = false
 ): ComponentRegistrar {
     override fun registerProjectComponents(project: MockProject, configuration: CompilerConfiguration) {
-        if (configuration[KEY_ENABLED] != true && !enabled) {
+        if (configuration[KEY_ENABLED] == false && !enabled) {
             return
         }
 

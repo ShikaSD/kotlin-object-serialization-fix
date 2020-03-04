@@ -10,6 +10,7 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperClassNotAny
 import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperInterfaces
 import org.jetbrains.kotlin.resolve.descriptorUtil.module
+import java.io.Serializable
 
 fun ClassDescriptor.needSerializableFix() =
     module.platform.has<JvmPlatform>()
@@ -18,12 +19,11 @@ fun ClassDescriptor.needSerializableFix() =
         && !hasReadMethod()
 
 fun ClassDescriptor.hasReadMethod() =
-    unsubstitutedMemberScope.getFunctionNames().contains(Name.identifier(SERIALIZABLE_READ))
+    unsubstitutedMemberScope.getFunctionNames().contains(SERIALIZABLE_READ)
 
 fun ClassDescriptor.isSerializable(): Boolean =
-    getSuperInterfaces().any { it.fqNameSafe == SERIALIZABLE_FQ_NAME }
+    getSuperInterfaces().any { it.fqNameSafe == SERIALIZABLE_FQ_NAME || it.isSerializable() }
         || getSuperClassNotAny()?.isSerializable() == true
 
-const val SERIALIZABLE_READ = "readResolve"
-val SERIALIZABLE_FQ_NAME = FqName("java.io.Serializable")
-
+val SERIALIZABLE_READ = Name.identifier("readResolve")
+val SERIALIZABLE_FQ_NAME = FqName(Serializable::class.java.name)

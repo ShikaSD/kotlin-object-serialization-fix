@@ -14,21 +14,32 @@ class ObjectSerializationJvmGeneration : ExpressionCodegenExtension {
         if (codegen.descriptor.needSerializableFix()) {
             val selfType = codegen.typeMapper.mapType(codegen.descriptor)
 
-            val visitor = codegen.v.newMethod(
-                NO_ORIGIN,
-                ACC_PUBLIC or ACC_SYNTHETIC,
-                SERIALIZABLE_READ,
-                "()Ljava/lang/Object;",
-                null,
-                EMPTY_STRING_ARRAY
-            )
-
-            visitor.visitCode()
-            val iv = InstructionAdapter(visitor)
-            iv.getstatic(codegen.className, "INSTANCE", selfType.descriptor)
-            iv.areturn(selfType)
-            FunctionCodegen.endVisit(iv, "JVM serialization bindings")
+            codegen.addFunction(SERIALIZABLE_READ.identifier, "()Ljava/lang/Object;") {
+                getstatic(codegen.className, "INSTANCE", selfType.descriptor)
+                areturn(selfType)
+            }
         }
 
     }
+
+    private fun ImplementationBodyCodegen.addFunction(
+        name: String,
+        asmDescriptor: String,
+        block: InstructionAdapter.() -> Unit
+    ) {
+        val visitor = v.newMethod(
+            NO_ORIGIN,
+            ACC_PUBLIC or ACC_SYNTHETIC,
+            name,
+            asmDescriptor,
+            null,
+            EMPTY_STRING_ARRAY
+        )
+
+        visitor.visitCode()
+        val iv = InstructionAdapter(visitor)
+        iv.apply(block)
+        FunctionCodegen.endVisit(iv, "JVM serialization bindings")
+    }
+
 }
