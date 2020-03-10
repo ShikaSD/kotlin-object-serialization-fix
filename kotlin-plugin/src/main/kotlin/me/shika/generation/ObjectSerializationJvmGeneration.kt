@@ -14,7 +14,7 @@ class ObjectSerializationJvmGeneration : ExpressionCodegenExtension {
         if (codegen.descriptor.needSerializableFix()) {
             val selfType = codegen.typeMapper.mapType(codegen.descriptor)
 
-            codegen.addFunction(SERIALIZABLE_READ.identifier, "()Ljava/lang/Object;") {
+            codegen.addReadResolveFunction {
                 getstatic(codegen.className, "INSTANCE", selfType.descriptor)
                 areturn(selfType)
             }
@@ -22,16 +22,14 @@ class ObjectSerializationJvmGeneration : ExpressionCodegenExtension {
 
     }
 
-    private fun ImplementationBodyCodegen.addFunction(
-        name: String,
-        asmDescriptor: String,
+    private fun ImplementationBodyCodegen.addReadResolveFunction(
         block: InstructionAdapter.() -> Unit
     ) {
         val visitor = v.newMethod(
             NO_ORIGIN,
             ACC_PUBLIC or ACC_SYNTHETIC,
-            name,
-            asmDescriptor,
+            SERIALIZABLE_READ.identifier,
+            "()Ljava/lang/Object;",
             null,
             EMPTY_STRING_ARRAY
         )

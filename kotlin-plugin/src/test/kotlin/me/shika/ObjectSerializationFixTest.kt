@@ -18,7 +18,7 @@ class ObjectSerializationFixTest(enableIr: Boolean) {
     }
 
     private val compiler = KotlinCompilation().apply {
-        compilerPlugins = listOf(ObjectSerializationComponentRegistrar(enabled = true))
+        compilerPlugins = listOf(ObjectSerializationComponentRegistrar())
         useIR = enableIr
     }
 

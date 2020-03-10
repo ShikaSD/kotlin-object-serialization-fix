@@ -1,6 +1,7 @@
 package me.shika.generation
 
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
+import org.jetbrains.kotlin.incremental.components.NoLookupLocation
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.name.Name
 import org.jetbrains.kotlin.platform.has
@@ -19,7 +20,8 @@ fun ClassDescriptor.needSerializableFix() =
         && !hasReadMethod()
 
 fun ClassDescriptor.hasReadMethod() =
-    unsubstitutedMemberScope.getFunctionNames().contains(SERIALIZABLE_READ)
+    unsubstitutedMemberScope.getContributedFunctions(SERIALIZABLE_READ, NoLookupLocation.FROM_BACKEND)
+        .any { it.name == SERIALIZABLE_READ && it.valueParameters.isEmpty() }
 
 fun ClassDescriptor.isSerializable(): Boolean =
     getSuperInterfaces().any { it.fqNameSafe == SERIALIZABLE_FQ_NAME || it.isSerializable() }
