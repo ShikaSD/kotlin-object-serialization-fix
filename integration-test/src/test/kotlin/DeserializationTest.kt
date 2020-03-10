@@ -7,8 +7,6 @@ import java.io.ObjectOutputStream
 import java.io.Serializable
 
 class ObjectSerializationIntegrationTest {
-    private object TestObject : Serializable
-
     @Test
     fun `object instance is the same after deserialization`() {
         assertEquals(TestObject, serializeDeserialize(TestObject))
