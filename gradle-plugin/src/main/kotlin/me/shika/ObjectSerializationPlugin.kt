@@ -1,7 +1,6 @@
 package me.shika
 
 import org.gradle.api.Project
-import org.gradle.api.internal.provider.DefaultListProperty
 import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
@@ -21,7 +20,7 @@ class ObjectSerializationPlugin : KotlinCompilerPluginSupportPlugin {
         val project = kotlinCompilation.target.project
         val extension = project.extensions.findByType(ObjectSerializationExtension::class.java) ?: ObjectSerializationExtension()
 
-        return DefaultListProperty(SubpluginOption::class.java).apply {
+        return project.objects.listProperty(SubpluginOption::class.java).apply {
             add(
                 SubpluginOption(
                     key = "enabled",
