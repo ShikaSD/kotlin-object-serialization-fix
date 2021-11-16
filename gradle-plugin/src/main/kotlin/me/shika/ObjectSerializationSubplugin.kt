@@ -1,30 +1,25 @@
 package me.shika
 
-import org.gradle.api.Project
-import org.gradle.api.tasks.compile.AbstractCompile
-import org.jetbrains.kotlin.gradle.dsl.KotlinCommonOptions
+import org.gradle.api.internal.provider.DefaultListProperty
+import org.gradle.api.provider.Provider
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
-import org.jetbrains.kotlin.gradle.plugin.KotlinGradleSubplugin
+import org.jetbrains.kotlin.gradle.plugin.KotlinCompilerPluginSupportPlugin
 import org.jetbrains.kotlin.gradle.plugin.SubpluginArtifact
 import org.jetbrains.kotlin.gradle.plugin.SubpluginOption
 
-class ObjectSerializationSubplugin: KotlinGradleSubplugin<AbstractCompile> {
-    override fun apply(
-        project: Project,
-        kotlinCompile: AbstractCompile,
-        javaCompile: AbstractCompile?,
-        variantData: Any?,
-        androidProjectHandler: Any?,
-        kotlinCompilation: KotlinCompilation<KotlinCommonOptions>?
-    ): List<SubpluginOption> {
+class ObjectSerializationSubplugin: KotlinCompilerPluginSupportPlugin {
+    override fun applyToCompilation(kotlinCompilation: KotlinCompilation<*>): Provider<List<SubpluginOption>> {
+        val project = kotlinCompilation.target.project
         val extension = project.extensions.findByType(ObjectSerializationExtension::class.java) ?: ObjectSerializationExtension()
 
-        return listOf(
-            SubpluginOption(
-                key = "enabled",
-                value = extension.enabled.toString()
+        return DefaultListProperty(SubpluginOption::class.java).apply {
+            add(
+                SubpluginOption(
+                    key = "enabled",
+                    value = extension.enabled.toString()
+                )
             )
-        )
+        }
     }
 
     override fun getCompilerPluginId(): String = "object-serialization-fix"
@@ -33,9 +28,9 @@ class ObjectSerializationSubplugin: KotlinGradleSubplugin<AbstractCompile> {
         SubpluginArtifact(
             groupId = "me.shika",
             artifactId = "kotlin-object-java-serialization",
-            version = "1.1.0"
+            version = "1.2.0"
         )
 
-    override fun isApplicable(project: Project, task: AbstractCompile): Boolean =
-        project.plugins.hasPlugin(ObjectSerializationPlugin::class.java)
+    override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
+        kotlinCompilation.target.project.plugins.hasPlugin(ObjectSerializationPlugin::class.java)
 }
