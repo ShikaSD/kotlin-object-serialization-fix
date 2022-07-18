@@ -10,7 +10,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api"
     compileOnly "org.jetbrains.kotlin:kotlin-compiler-embeddable"
 
-    testImplementation 'com.github.tschuchortdev:kotlin-compile-testing:1.2.5'
+    testImplementation 'com.github.tschuchortdev:kotlin-compile-testing:1.4.9'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.jetbrains.kotlin:kotlin-compiler-embeddable'
 }
