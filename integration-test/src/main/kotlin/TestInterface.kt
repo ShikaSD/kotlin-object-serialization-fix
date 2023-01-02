@@ -7,3 +7,5 @@ object DirectlyImplementsTestInterface: TestInterface
 abstract class ExtendsTestInterface: TestInterface
 
 object IndirectlyImplementsTestInterface: ExtendsTestInterface()
+
+object NotSerializable

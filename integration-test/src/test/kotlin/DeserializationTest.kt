@@ -8,15 +8,26 @@ class ObjectSerializationIntegrationTest {
         assertSame(TestObject, serializeDeserialize(TestObject))
         assertSame(DirectlyImplementsTestInterface, serializeDeserialize(DirectlyImplementsTestInterface))
         assertSame(IndirectlyImplementsTestInterface, serializeDeserialize(IndirectlyImplementsTestInterface))
+        assertSame(SerializableFromScala, serializeDeserialize(SerializableFromScala))
     }
 
-    private fun serializeDeserialize(instance: Serializable): Serializable {
+    @Test(expected = NotSerializableException::class)
+    fun `cannot serialize non-serializable object`() {
+        serializeDeserialize(NotSerializable)
+    }
+
+    @Test(expected = NotSerializableException::class)
+    fun `cannot serialize non-serializable object from scala`() {
+        serializeDeserialize(NotSerializableFromScala)
+    }
+
+    private fun serializeDeserialize(instance: Any): Any? {
         val outputStream = ByteArrayOutputStream()
         ObjectOutputStream(outputStream).use {
             it.writeObject(instance)
         }
         return ObjectInputStream(ByteArrayInputStream(outputStream.toByteArray())).use {
-            it.readObject() as Serializable
+            it.readObject()
         }
     }
 }

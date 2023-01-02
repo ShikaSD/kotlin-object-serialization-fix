@@ -1,0 +1,3 @@
+object SerializableFromScala: SerializableTrait
+
+object NotSerializableFromScala: NotSerializableTrait
