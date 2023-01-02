@@ -1,15 +1,13 @@
-import org.junit.Assert.assertEquals
+import org.junit.Assert.assertSame
 import org.junit.Test
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
-import java.io.Serializable
+import java.io.*
 
 class ObjectSerializationIntegrationTest {
     @Test
     fun `object instance is the same after deserialization`() {
-        assertEquals(TestObject, serializeDeserialize(TestObject))
+        assertSame(TestObject, serializeDeserialize(TestObject))
+        assertSame(DirectlyImplementsTestInterface, serializeDeserialize(DirectlyImplementsTestInterface))
+        assertSame(IndirectlyImplementsTestInterface, serializeDeserialize(IndirectlyImplementsTestInterface))
     }
 
     private fun serializeDeserialize(instance: Serializable): Serializable {
@@ -18,7 +16,7 @@ class ObjectSerializationIntegrationTest {
             it.writeObject(instance)
         }
         return ObjectInputStream(ByteArrayInputStream(outputStream.toByteArray())).use {
-            it.readObject() as TestObject
+            it.readObject() as Serializable
         }
     }
 }
