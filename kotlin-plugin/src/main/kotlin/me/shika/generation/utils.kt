@@ -40,7 +40,7 @@ fun IrClass.needSerializableFix(): Boolean {
 
 fun IrClass.isSerializable(): Boolean {
     return allSuperInterfaces()
-        .any { it.fqNameWhenAvailable == SERIALIZABLE_FQ_NAME || it.isSerializable() }
+        .any { it.fqNameWhenAvailable == SERIALIZABLE_FQ_NAME || it !== this && it.isSerializable() }
         || getAllSuperclasses().any { it.isSerializable() }
 }
 

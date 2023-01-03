@@ -1,24 +1,33 @@
-import org.junit.Assert.assertEquals
+import org.junit.Assert.assertSame
 import org.junit.Test
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.ObjectInputStream
-import java.io.ObjectOutputStream
-import java.io.Serializable
+import java.io.*
 
 class ObjectSerializationIntegrationTest {
     @Test
     fun `object instance is the same after deserialization`() {
-        assertEquals(TestObject, serializeDeserialize(TestObject))
+        assertSame(TestObject, serializeDeserialize(TestObject))
+        assertSame(DirectlyImplementsTestInterface, serializeDeserialize(DirectlyImplementsTestInterface))
+        assertSame(IndirectlyImplementsTestInterface, serializeDeserialize(IndirectlyImplementsTestInterface))
+        assertSame(SerializableFromScala, serializeDeserialize(SerializableFromScala))
     }
 
-    private fun serializeDeserialize(instance: Serializable): Serializable {
+    @Test(expected = NotSerializableException::class)
+    fun `cannot serialize non-serializable object`() {
+        serializeDeserialize(NotSerializable)
+    }
+
+    @Test(expected = NotSerializableException::class)
+    fun `cannot serialize non-serializable object from scala`() {
+        serializeDeserialize(NotSerializableFromScala)
+    }
+
+    private fun serializeDeserialize(instance: Any): Any? {
         val outputStream = ByteArrayOutputStream()
         ObjectOutputStream(outputStream).use {
             it.writeObject(instance)
         }
         return ObjectInputStream(ByteArrayInputStream(outputStream.toByteArray())).use {
-            it.readObject() as TestObject
+            it.readObject()
         }
     }
 }

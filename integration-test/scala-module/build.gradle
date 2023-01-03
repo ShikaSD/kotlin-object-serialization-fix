@@ -1,0 +1,8 @@
+plugins {
+    id 'scala'
+    id 'java-library'
+}
+
+dependencies {
+    api 'org.scala-lang:scala-library:2.12.17'
+}
