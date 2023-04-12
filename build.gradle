@@ -1,9 +1,7 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
 }
-
-sourceCompatibility = 1.8
 
 allprojects {
     repositories {
@@ -13,5 +11,9 @@ allprojects {
     }
 
     group 'me.shika'
-    version '1.4.1'
+    version '1.4.2'
+
+    kotlin {
+        jvmToolchain(11)
+    }
 }

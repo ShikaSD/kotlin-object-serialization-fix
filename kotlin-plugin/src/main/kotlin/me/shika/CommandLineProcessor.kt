@@ -3,10 +3,12 @@ package me.shika
 import org.jetbrains.kotlin.compiler.plugin.AbstractCliOption
 import org.jetbrains.kotlin.compiler.plugin.CliOption
 import org.jetbrains.kotlin.compiler.plugin.CommandLineProcessor
+import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.jetbrains.kotlin.config.CompilerConfiguration
 import org.jetbrains.kotlin.config.CompilerConfigurationKey
 
 //@AutoService(CommandLineProcessor::class)
+@OptIn(ExperimentalCompilerApi::class)
 class ObjectSerializationCommandLineProcessor : CommandLineProcessor {
     override val pluginId: String = "object-serialization-fix"
     override val pluginOptions: Collection<AbstractCliOption> =

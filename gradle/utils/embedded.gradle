@@ -29,7 +29,7 @@ afterEvaluate {
         }
     }
 
-    task sourcesJar(type: Jar) {
+    tasks.getByName("sourcesJar") {
         archiveClassifier = 'sources'
         from embeddedProjects().collect { it.sourceSets.main.allSource }
     }

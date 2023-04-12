@@ -1,6 +1,16 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
 rootProject.name = 'kotlin-object-java-serialization'
 
 include ':gradle-plugin'
 include ':kotlin-plugin'
 include ':integration-test'
 include ':integration-test:scala-module'
+
+project(':gradle-plugin').name = "kotlin-object-java-serialization"
