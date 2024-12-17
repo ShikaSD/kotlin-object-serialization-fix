@@ -17,7 +17,7 @@ import org.jetbrains.kotlin.ir.visitors.IrElementVisitorVoid
 import org.jetbrains.kotlin.ir.visitors.acceptChildrenVoid
 import org.jetbrains.kotlin.ir.visitors.acceptVoid
 
-private object ObjectSerializationOrigin : IrDeclarationOriginImpl("object-serialization-fix", isSynthetic = true)
+private val objectSerializationOrigin = IrDeclarationOriginImpl("object-serialization-fix", isSynthetic = true)
 
 class ObjectSerializationIrGeneration : IrGenerationExtension {
     override fun generate(moduleFragment: IrModuleFragment, pluginContext: IrPluginContext) {
@@ -37,7 +37,7 @@ class ObjectSerializationIrGeneration : IrGenerationExtension {
             name = SERIALIZABLE_READ
             returnType = context.irBuiltIns.anyNType
             visibility = DescriptorVisibilities.PUBLIC
-            origin = ObjectSerializationOrigin
+            origin = objectSerializationOrigin
         }.also { function ->
             // Ensure it is not static
             function.dispatchReceiverParameter = cls.thisReceiver?.copyTo(function)
