@@ -12,6 +12,6 @@ dependencies {
 
     // testImplementation 'com.github.tschuchortdev:kotlin-compile-testing:1.5.0' does not support Kotlin 2
     testImplementation 'dev.zacsweers.kctfork:core:0.6.0' // Fork of kotlin-compile-testing that supports Kotlin 2
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.jetbrains.kotlin:kotlin-compiler-embeddable'
 }

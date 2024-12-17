@@ -5,7 +5,6 @@ import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runners.Parameterized.Parameters
 import java.lang.reflect.Method
 
 @OptIn(ExperimentalCompilerApi::class)
