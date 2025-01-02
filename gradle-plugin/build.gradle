@@ -5,6 +5,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
+apply from: rootProject.file('gradle/utils/embedded.gradle')
+
 gradlePlugin {
     website = 'https://github.com/ShikaSD/kotlin-object-serialization-fix'
     vcsUrl = 'https://github.com/ShikaSD/kotlin-object-serialization-fix.git'
@@ -24,5 +26,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api"
 
-    runtimeOnly(project(':kotlin-plugin'))
+    embedded project(':kotlin-plugin')
 }
