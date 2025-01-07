@@ -36,7 +36,7 @@ class ObjectSerializationPlugin : KotlinCompilerPluginSupportPlugin {
         SubpluginArtifact(
             groupId = "me.shika",
             artifactId = "kotlin-object-java-serialization",
-            version = "1.4.2"
+            version = "1.5.0"
         )
 
     override fun isApplicable(kotlinCompilation: KotlinCompilation<*>): Boolean =
