@@ -20,20 +20,6 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.getSuperInterfaces
 import org.jetbrains.kotlin.resolve.descriptorUtil.module
 import java.io.Serializable
 
-fun ClassDescriptor.needSerializableFix() =
-    module.platform.has<JvmPlatform>()
-        && DescriptorUtils.isObject(this)
-        && isSerializable()
-        && !hasReadMethod()
-
-fun ClassDescriptor.hasReadMethod() =
-    unsubstitutedMemberScope.getContributedFunctions(SERIALIZABLE_READ, NoLookupLocation.FROM_BACKEND)
-        .any { it.name == SERIALIZABLE_READ && it.valueParameters.isEmpty() }
-
-fun ClassDescriptor.isSerializable(): Boolean =
-    getSuperInterfaces().any { it.fqNameSafe == SERIALIZABLE_FQ_NAME || it.isSerializable() }
-        || getSuperClassNotAny()?.isSerializable() == true
-
 fun IrClass.needSerializableFix(): Boolean {
     return isObject && isSerializable() && !hasReadMethod()
 }

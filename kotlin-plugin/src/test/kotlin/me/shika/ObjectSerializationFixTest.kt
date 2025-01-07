@@ -5,13 +5,24 @@ import com.tschuchort.compiletesting.SourceFile
 import org.jetbrains.kotlin.compiler.plugin.ExperimentalCompilerApi
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Parameterized
+import org.junit.runners.Parameterized.Parameters
 import java.lang.reflect.Method
 
 @OptIn(ExperimentalCompilerApi::class)
-class ObjectSerializationFixTest {
+@RunWith(Parameterized::class)
+class ObjectSerializationFixTest(enableFir: Boolean) {
+    companion object {
+        @Parameters(name = "FIR: {1}")
+        @JvmStatic
+        fun data() = arrayOf(false, true)
+    }
+
     private val compiler = KotlinCompilation().apply {
         compilerPluginRegistrars = listOf(ObjectSerializationCompilerPluginRegistrar())
         supportsK2 = true
+        languageVersion = if (enableFir) "1.9" else "2.0"
     }
 
     private val SERIALIZABLE_OBJECT = """
