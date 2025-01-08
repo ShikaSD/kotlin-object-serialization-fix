@@ -14,7 +14,7 @@ import java.lang.reflect.Method
 @RunWith(Parameterized::class)
 class ObjectSerializationFixTest(enableFir: Boolean) {
     companion object {
-        @Parameters(name = "FIR: {1}")
+        @Parameters(name = "FIR: {0}")
         @JvmStatic
         fun data() = arrayOf(false, true)
     }
