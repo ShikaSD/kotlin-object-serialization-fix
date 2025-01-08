@@ -26,5 +26,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-gradle-plugin-api"
 
-    embedded project(':kotlin-plugin')
+//    embedded project(':kotlin-plugin')
 }
