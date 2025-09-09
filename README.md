@@ -1,5 +1,7 @@
 # Java serialization fix for Kotlin object
 
+## The plugin is no longer supported, please use [`data object`](https://kotlinlang.org/docs/object-declarations.html#data-objects) instead.
+
 Solves the problem of Kotlin object being having different instance after deserialization using built-in Java serialization.
 The issue is described quite well [here](https://blog.stylingandroid.com/kotlin-serializable-objects/).
 
